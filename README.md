@@ -11,28 +11,28 @@ This database is in Neo4j 2.0. It is the first public iteration, for test purpos
 
 The cypher code stored within "metaCirque_mcDemo_20140217.txt" creates instance of clustered nodes representing 13 media instances (below), and a bit of test descriptive metadata.
 
-  mcDemo_01: digital8 Master
+  mcDemo_01: digital8 Master; and
   mcDemo_01_01: Ingest Master
 
-  mcDemo_02: digital8 Master
-  mcDemo_02_01: Ingest Master
+  mcDemo_02: digital8 Master;
+  mcDemo_02_01: Ingest Master; and
   mcDemo_02_01_01: Access Derivative
 
-  mcDemo_03: Edited Master
+  mcDemo_03: Edited Master; and
   mcDemo_03_01: Access Derivative
 
-  mcDemo_p: Place Descriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific)
-  mcDemo_e: Subject Descriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific)
-  mcDemo_c: Contributor Descriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific)
+  mcDemo_p: Place Descriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific);
+  mcDemo_e: Subject Descriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific);
+  mcDemo_c: Contributor Descriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific); and
   mcDemo_d: Dialogue escriptive Metadata (adhoc for test on mcDemo_03 & mcDemo_03_01; non-schema specific)
 
-  mcDemo_04: Edited Master
+  mcDemo_04: Edited Master; and
   mcDemo_04_01: Access Derivative
 
-  mcDemo_05: Music CD (Physical)
+  mcDemo_05: Music CD (Physical); and
   mcDemo_05_01: Music CD (Ingest Master)
 
-  mcDemo_06: Asymmetrical Edit Master
+  mcDemo_06: Asymmetrical Edit Master; and
   mcDemo_06_01: Asymmetrical Access Copy
 
 The node clusters created are atypical for a Neo4j database. They are designed to provide label-based arrays of 5+ nodes (typically, 6 nodes for a video object) under a single UMID, with each node having a distinct NID (node identifier) to indicate its relative position within the array structure. 
