@@ -1,0 +1,64 @@
+``mcDemo (2014-02-17) initial Cypher test queries by Laurence Cook/metaCirque
+
+
+One Instance
+
+	START n=node(*) where n.UMID="mcDemo_01" return n; 
+
+Two Instances (tape & ingest): provenace
+
+	START n=node(*) where n.UMID="mcDemo_01_01" OR n.UMID="mcDemo_01" return n; 
+
+Three Instances (two source, one edit master)
+
+	START n=node(*) where n.UMID="mcDemo_01_01" OR n.UMID="mcDemo_02_01" OR n.UMID="mcDemo_03" return n; 
+
+Single Node Provenance Line
+
+	START n=node(*) where (n.UMID="mcDemo_04_01" AND n.NID="Ve1.1") MATCH n-[r:PROVENANCE*..3]->g return n, r, g; Node Provenance Line
+
+Single DMe Instance Cluster AudioEssences Provenance
+
+	START n=node(*) where (n:AudioEssence AND n.UMID="mcDemo_03") MATCH n-[r:PROVENANCE*..2]->g  return n, r,g;
+
+Single DMi Instance Cluster VideoEssences Provenance
+
+	START n=node(*) where (n.UMID="mcDemo_02_01" AND n.NID="Ve1.5") MATCH n-[r:PROVENANCE*..2]-g return n, r, g;
+
+Single DMe Instance Cluster Media Fragments to Primary Source
+
+	START n=node(*) where n.UMID="mcDemo_04_01" MATCH n-[:PROVENANCE*..3]->g return n, g;
+
+Two source Instance Clusters to one DMe
+
+	START n=node(*) where n.UMID="mcDemo_04" OR n.UMID="mcDemo_01_01" OR n.UMID="mcDemo_02_01" return n;
+
+Descriptive Metadata to Specific Nodes
+
+	START n=node(*) where (n.UMID="mcDemo_03") MATCH n-[r:HAS_SUBJECT|IS_PART_OF|EXPRESSES*..2]->g return n, r, g;
+
+
+Relationship for specific TimeIn, Plus Provenance
+
+	START r=relationship(*) WHERE r.TimeIn="00:52:44;08" return r;
+
+
+All Instance ---> Content arrays
+
+	START n=node(*) MATCH n-[r:CARRIES]->g return n, r, g;
+
+All TimeCode Nodes and Essences, without Instance or Content or AVContainer
+
+	START n=node(*) MATCH n-[r:TIME_SYNC]->g return n, r, g;
+
+All Males Persons (not including one female, then all female)
+
+	START n=node(*) MATCH a-[r:IS_A]->b WHERE r.Type="Male" return a,b;
+
+	START n=node(*) MATCH a-[r:IS_A]->b WHERE r.Type="Female" return a,b;
+
+All Dialogue, Who said it, and in what Fragment
+
+	START n=node(*) MATCH n-[r:HAS_STATEMENT|HAS_GESTURE|EXPRESSED_BY|EXAMPLE_OF]->g return n, r, g;
+
+

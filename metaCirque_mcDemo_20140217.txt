@@ -1,0 +1,771 @@
+﻿``metaCirque mcDemo Neo4j database (210 nodes, 503 relationships; hand coded & subject to error), dated 2014-02-17
+``Cypher code provided under Creative Commons Attribution & ShareAlike 4.0 International License from Laurence Cook & metaCirque, as governed by Neo4j Creative Commons 3.0 License
+``Promote flow & grow. Thanks for being there. - Laurence Cook, 2014
+
+
+``mcDemo_01: digital8 Master
+
+CREATE (:Instance {UMID:"mcDemo_01", NID: "I-Tape_01", InstanceCreated: "2003", InstanceSourceDevice: "Sony DCR-TRV340", InstanceStandard: "Digital8", InstanceGeneration: "Primary Source (D8 Tape)", InstanceLocation: "Physical Archive, Soup Quinox, Tape 2", InstanceDuration: "01:00:00;00"})
+CREATE (:Content {UMID:"mcDemo_01", NID: "C-Tape_01", ContentTitle: "SoupQuinox", ContentDate: "2003", ContentDescription: "Roadtrip to Texas", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeIn: "00:00:00;00", TimeDuration: "01:00:00;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "01:00:00;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "01:00:00;00"})
+CREATE (:TimeCode {UMID:"mcDemo_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "01:00:00;00"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_01") AND (b:Content AND b.UMID="mcDemo_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_01") AND (b:Instance AND b.UMID="mcDemo_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_01") AND (b:AVContainer AND b.UMID="mcDemo_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01") AND (b:TimeCode AND b.UMID="mcDemo_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.0", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01") AND (b:TimeCode AND b.UMID="mcDemo_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.0", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+
+
+``mcDemo_02: digital8 Master
+
+CREATE (:Instance {UMID:"mcDemo_02", NID: "I-Tape_02", InstanceCreated: "2004", InstanceSourceDevice: "Sony DCR-TRV340", InstanceStandard: "Digital8", InstanceGeneration: "Primary Source (D8 Tape)", InstanceLocation: "Physical Archive, Mojave Snow Storm, Tape 1", InstanceDuration: "01:00:00;00"})
+CREATE (:Content {UMID:"mcDemo_02", NID: "C-Tape_02", ContentTitle: "Mojave Snow Storm", ContentDate: "2004", ContentDescription: "Snow Storm at Cabin", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_02", NID: "AVc0.0", ElementTitle: "Essence Container", TimeIn: "00:00:00;00", TimeDuration: "01:00:00;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_02", NID: "Ve1.0", ElementTitle: "Video Essence", TimeIn: "00:00:00;00", TimeDuration: "01:00:00;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_02", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeIn: "00:00:00;00", TimeDuration: "01:00:00;00"})
+CREATE (:TimeCode {UMID:"mcDemo_02", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "01:00:00;00"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_02") AND (b:Content AND b.UMID="mcDemo_02") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_02") AND (b:Instance AND b.UMID="mcDemo_02") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_02") AND (b:AVContainer AND b.UMID="mcDemo_02") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_02") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_02") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02") AND (b:TimeCode AND b.UMID="mcDemo_02") CREATE a-[r:TIME_SYNC{NID: "Ve1.0", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02") AND (b:TimeCode AND b.UMID="mcDemo_02") CREATE a-[r:TIME_SYNC{NID: "Ae2.0", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+
+
+``mcDemo_01_01: Ingest Master
+
+CREATE (:Instance {UMID:"mcDemo_01_01", NID: "I-DMi_01", InstanceCreated: "05/12/2013", InstanceStandard: "AVI", InstanceFileSize: "12.1GB", InstanceDimensions: "720x480", InstanceDataRate: "28771kbps", InstanceBitRate: "30307kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Master, Ingest", InstanceLocation: "NAS", InstanceDuration: "00:57:20;14"})
+CREATE (:Content {UMID:"mcDemo_01_01", NID: "C-DMi_01", ContentTitle: "SoupQuinox", ContentDate: "2003", ContentDescription: "Roadtrip to Texas", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_01_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:57:20;14"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:57:20;14"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:57:20;14"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.1", ElementTitle: "Camera Test", TimeDuration: "00:02:28;12"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.2", ElementTitle: "VLA", TimeDuration:"00:08:57;04"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.3", ElementTitle: "Roswell", TimeDuration: "00:03:59;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.4", ElementTitle: "Odessa Crater", TimeDuration: "00:18:55;01"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.5", ElementTitle: "Dripping Springs", TimeDuration: "00:03:49;14"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.6", ElementTitle: "Elgin, TX", TimeDuration: "00:10:51;20"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.7", ElementTitle: "Road Home", TimeDuration: "00:03:42;22"})
+CREATE (:VideoEssence {UMID:"mcDemo_01_01", NID: "Ve1.8", ElementTitle: "Night Camp", TimeDuration: "00:04:36;06"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.1", ElementTitle: "Camera Test", TimeDuration: "00:02:28;12"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.2", ElementTitle: "VLA", TimeDuration: "00:08:57;04"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.3", ElementTitle: "Roswell", TimeDuration: "00:03:59;21"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.4", ElementTitle: "Odessa Crater", TimeDuration: "00:18:55;01"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.5", ElementTitle: "Dripping Springs", TimeDuration: "00:03:49;14"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.6", ElementTitle: "Elgin, TX", TimeDuration: "00:10:51;20"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.7", ElementTitle: "Road Home", TimeDuration: "00:03:42;22"})
+CREATE (:AudioEssence {UMID:"mcDemo_01_01", NID: "Ae2.8", ElementTitle: "Night Camp", TimeDuration: "00:04:36;06"})
+CREATE (:TimeCode {UMID:"mcDemo_01_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:57:20;14"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_01_01") AND (b:Content AND b.UMID="mcDemo_01_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_01_01") AND (b:Instance AND b.UMID="mcDemo_01_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_01_01") AND (b:AVContainer AND b.UMID="mcDemo_01_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.1" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.2" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.3" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.4" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.5" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.6" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.6"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.7" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.7"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.8" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.8"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.1" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.2" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.3" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.4" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.5" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.6" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.6"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.7" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.7"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.8" AND b.UMID="mcDemo_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.8"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:02:28;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:02:28;12", TimeOut: "00:11:25;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:11:25;16", TimeOut: "00:15:25;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.4", TimeIn: "00:15:25;08", TimeOut: "00:34:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.5" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.5", TimeIn: "00:34:20;09", TimeOut: "00:38:09;24"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.6" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.6", TimeIn: "00:38:09;24", TimeOut: "00:49:01;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.7" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.7", TimeIn: "00:49:01;15", TimeOut: "00:52:44;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.8" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.8", TimeIn: "00:52:44;08", TimeOut: "00:57:20;14"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:02:28;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:02:28;12", TimeOut: "00:11:25;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.3", TimeIn: "00:11:25;16", TimeOut: "00:15:25;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.4", TimeIn: "00:15:25;08", TimeOut: "00:34:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.5" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.5", TimeIn: "00:34:20;09", TimeOut: "00:38:09;24"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.6" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.6", TimeIn: "00:38:09;24", TimeOut: "00:49:01;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.7" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.7", TimeIn: "00:49:01;15", TimeOut: "00:52:44;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.8" AND a.UMID="mcDemo_01_01") AND (b:TimeCode AND b.UMID="mcDemo_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.8", TimeIn: "00:52:44;08", TimeOut: "00:57:20;14"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "00:02:28;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:02:28;12", TimeOut: "00:11:25;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:11:25;16", TimeOut: "00:15:25;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:15:25;08", TimeOut: "00:34:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.5" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:34:20;09", TimeOut: "00:38:09;24"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.6" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:38:09;24", TimeOut: "00:49:01;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.7" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:49:01;15", TimeOut: "00:52:44;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.8" AND a.UMID="mcDemo_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:52:44;08", TimeOut: "00:57:20;14"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "00:02:28;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:02:28;12", TimeOut: "00:11:25;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:11:25;16", TimeOut: "00:15:25;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:15:25;08", TimeOut: "00:34:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.5" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:34:20;09", TimeOut: "00:38:09;24"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.6" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:38:09;24", TimeOut: "00:49:01;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.7" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:49:01;15", TimeOut: "00:52:44;08"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.8" AND a.UMID="mcDemo_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:52:44;08", TimeOut: "00:57:20;14"}]->b RETURN r
+
+
+``mcDemo_02_01: Ingest Master
+
+CREATE (:Instance {UMID:"mcDemo_02_01", NID: "I-DMe_02", InstanceCreated: "05/12/2013", InstanceStandard: "AVI", InstanceFileSize: "4.13GB", InstanceDimensions: "720x486", InstanceDataRate: "167793kbps", InstanceBitRate: "269329kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Master, Edit", InstanceLocation: "NAS", InstanceDuration: "00:03:19;21"})
+CREATE (:Content {UMID:"mcDemo_02_01", NID: "C-DMe_02", ContentTitle: "Mojave Snow Storm", ContentDate: "2004", ContentDescription: "Snow Storm at Cabin", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_02_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:03:19;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:03:19;21"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:03:19;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01", NID: "Ve1.1", ElementTitle: "Snow Storm", TimeDuration: "00:01:01;04"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01", NID: "Ve1.2", ElementTitle: "Kelbaker Drive", TimeDuration: "00:00:18;16"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01", NID: "Ve1.3", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:26;08"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01", NID: "Ve1.4", ElementTitle: "Interlude", TimeDuration: "00:00:37;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01", NID: "Ve1.5", ElementTitle: "Fireworks", TimeDuration: "00:00:56;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01", NID: "Ae2.1", ElementTitle: "Snow Storm", TimeDuration: "00:01:01;04"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01", NID: "Ae2.2", ElementTitle: "Kelbaker Drive", TimeDuration: "00:00:18;16"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01", NID: "Ae2.3", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:26;08"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01", NID: "Ae2.4", ElementTitle: "Interlude", TimeDuration: "00:00:37;21"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01", NID: "Ae2.5", ElementTitle: "Fireworks", TimeDuration: "00:00:56;00"})
+CREATE (:TimeCode {UMID:"mcDemo_02_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:03:19;21"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_02_01") AND (b:Content AND b.UMID="mcDemo_02_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_02_01") AND (b:Instance AND b.UMID="mcDemo_02_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_02_01") AND (b:AVContainer AND b.UMID="mcDemo_02_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.1" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.2" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.3" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.4" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ve1.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.5" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ve1.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.1" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.2" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.3" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ae2.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.4" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ae2.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.5" AND b.UMID="mcDemo_02_01") CREATE a-[r:CONTAINS{NID: "Ae2.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:01:01;04"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:01:01;04", TimeOut: "00:01:19;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:01:19;20", TimeOut: "00:01:45;29"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.4", TimeIn: "00:01:45;29", TimeOut: "00:02:23;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.5" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.5", TimeIn: "00:02:23;21", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:01:01;04"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:01:01;04", TimeOut: "00:01:19;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.3", TimeIn: "00:01:19;20", TimeOut: "00:01:45;29"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.4", TimeIn: "00:01:45;29", TimeOut: "00:02:23;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.5" AND a.UMID="mcDemo_02_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.5", TimeIn: "00:02:23;21", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.5" AND a.UMID="mcDemo_02_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ve1.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.5" AND a.UMID="mcDemo_02_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02", NID: "Ae2.0", Type: "Primary Source", TimeIn: "00:00:00;00", TimeOut: "01:00:00;00"}]->b RETURN r
+
+``mcDemo_02_01_01: Access Derivative
+
+CREATE (:Instance {UMID:"mcDemo_02_01_01", NID: "I-DAc_02", InstanceCreated: "02/12/2014", InstanceStandard: "MP4", InstanceFileSize: "837.94MB", InstanceDimensions: "720x486", InstanceDataRate: "167793kbps", InstanceBitRate: "269329kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Master, Edit", InstanceLocation: "NAS", InstanceDuration: "00:03:19;21"})
+CREATE (:Content {UMID:"mcDemo_02_01_01", NID: "C-DAc_02", ContentTitle: "Mojave Snow Storm", ContentDate: "2004", ContentDescription: "Snow Storm at Cabin", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_02_01_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:03:19;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:03:19;21"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:03:19;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01_01", NID: "Ve1.1", ElementTitle: "Snow Storm", TimeDuration: "00:01:01;04"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01_01", NID: "Ve1.2", ElementTitle: "Kelbaker Drive", TimeDuration: "00:00:18;16"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01_01", NID: "Ve1.3", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:26;08"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01_01", NID: "Ve1.4", ElementTitle: "Interlude", TimeDuration: "00:00:37;21"})
+CREATE (:VideoEssence {UMID:"mcDemo_02_01_01", NID: "Ve1.5", ElementTitle: "Fireworks", TimeDuration: "00:00:56;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01_01", NID: "Ae2.1", ElementTitle: "Snow Storm", TimeDuration: "00:01:01;04"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01_01", NID: "Ae2.2", ElementTitle: "Kelbaker Drive", TimeDuration: "00:00:18;16"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01_01", NID: "Ae2.3", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:26;08"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01_01", NID: "Ae2.4", ElementTitle: "Interlude", TimeDuration: "00:00:37;21"})
+CREATE (:AudioEssence {UMID:"mcDemo_02_01_01", NID: "Ae2.5", ElementTitle: "Fireworks", TimeDuration: "00:00:56;00"})
+CREATE (:TimeCode {UMID:"mcDemo_02_01_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:03:19;21"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_02_01_01") AND (b:Content AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_02_01_01") AND (b:Instance AND b.UMID="mcDemo_02_01_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_02_01_01") AND (b:AVContainer AND b.UMID="mcDemo_02_01_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.1" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.2" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.3" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.4" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.5" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ve1.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.1" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.2" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.3" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.4" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.5" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:CONTAINS{NID: "Ae2.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:01:01;04"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:01:01;04", TimeOut: "00:01:19;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:01:19;20", TimeOut: "00:01:45;29"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.4", TimeIn: "00:01:45;29", TimeOut: "00:02:23;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.5" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.5", TimeIn: "00:02:23;21", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:01:01;04"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:01:01;04", TimeOut: "00:01:19;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.3", TimeIn: "00:01:19;20", TimeOut: "00:01:45;29"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.4", TimeIn: "00:01:45;29", TimeOut: "00:02:23;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.5" AND a.UMID="mcDemo_02_01_01") AND (b:TimeCode AND b.UMID="mcDemo_02_01_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.5", TimeIn: "00:02:23;21", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.2" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.3" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.4" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.5" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.2" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.3" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.4" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.5" AND b.UMID="mcDemo_02_01_01") CREATE a-[r:NEXT]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.1" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.0", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:01:01;04"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.2" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.0", Type: "Direct Source", TimeIn: "00:01:01;04", TimeOut: "00:01:19;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.3" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.0", Type: "Direct Source", TimeIn: "00:01:19;20", TimeOut: "00:01:45;29"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.4" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.0", Type: "Direct Source", TimeIn: "00:01:45;29", TimeOut: "00:02:23;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.5" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.0", Type: "Direct Source", TimeIn: "00:02:23;21", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.1" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.0", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:01:01;04"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.2" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.0", Type: "Direct Source", TimeIn: "00:01:01;04", TimeOut: "00:01:19;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.3" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.0", Type: "Direct Source", TimeIn: "00:01:19;20", TimeOut: "00:01:45;29"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.4" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.0", Type: "Direct Source", TimeIn: "00:01:45;29", TimeOut: "00:02:23;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.5" AND a.UMID="mcDemo_02_01_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.0", Type: "Direct Source", TimeIn: "00:02:23;21", TimeOut: "00:03:19;21"}]->b RETURN r
+
+
+``mcDemo_03: Edited Master
+
+CREATE (:Instance {UMID:"mcDemo_03", NID: "I-DMe_03", InstanceCreated: "01/24/2014", InstanceStandard: "AVI", InstanceFileSize: "175MB", InstanceDimensions: "720x480", InstanceDataRate: "28771kbps", InstanceBitRate: "30307kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Master, Edit", InstanceLocation: "NAS", InstanceDuration: "00:00:48;11"})
+CREATE (:Content {UMID:"mcDemo_03", NID: "C-DMe_03", ContentTitle: "mcDemo_DMe03", ContentDate: "2003-2004", ContentDescription: "Mixed Clip Edit For metaCirque mcDemo", ContentOwner: "metaCirque"})
+CREATE (:AVContainer {UMID:"mcDemo_03", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:00:48;11"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:00:48;11"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:00:48;11"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.1", ElementTitle: "Signs: Crater & Snakes", TimeDuration: "00:00:08;05"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.2", ElementTitle: "Sign: Rocks", TimeDuration: "00:00:04;05"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.3", ElementTitle: "Rice Eyes", TimeDuration: "00:00:03;13"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.4", ElementTitle: "Fireworks", TimeDuration: "00:00:04;15"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.5", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:05;28"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.6", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:12;23"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.7", ElementTitle: "Hold Greeb", TimeDuration: "00:00:03;01"})
+CREATE (:VideoEssence {UMID:"mcDemo_03", NID: "Ve1.8", ElementTitle: "Small Change", TimeDuration: "00:00:06;10"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.1", ElementTitle: "Signs: Crater & Snakes", TimeDuration: "00:00:08;05"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.2", ElementTitle: "Sign: Rocks", TimeDuration: "00:00:04;05"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.3", ElementTitle: "Rice Eyes", TimeDuration: "00:00:03;13"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.4", ElementTitle: "Fireworks", TimeDuration: "00:00:04;15"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.5", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:05;28"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.6", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:12;23"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.7", ElementTitle: "Hold Greeb", TimeDuration: "00:00:03;01"})
+CREATE (:AudioEssence {UMID:"mcDemo_03", NID: "Ae2.8", ElementTitle: "Small Change", TimeDuration: "00:00:06;10"})
+CREATE (:TimeCode {UMID:"mcDemo_03", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:00:48;11"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_03") AND (b:Content AND b.UMID="mcDemo_03") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_03") AND (b:Instance AND b.UMID="mcDemo_03") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_03") AND (b:AVContainer AND b.UMID="mcDemo_03") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_03") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_03") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.4" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.6" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.6"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.7" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.7"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.8" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ve1.8"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.2" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.3" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.4" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.6" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.6"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.7" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.7"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.8" AND b.UMID="mcDemo_03") CREATE a-[r:CONTAINS{NID: "Ae2.8"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.4", TimeIn: "00:00:15;23", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.5", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.6", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.7", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ve1.8", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.3" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.3", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.4" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.4", TimeIn: "00:00:15;23", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.5" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.5", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.6" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.6", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.7" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.7", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.8" AND a.UMID="mcDemo_03") AND (b:TimeCode AND b.UMID="mcDemo_03") CREATE a-[r:TIME_SYNC{NID: "Ae2.8", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.4" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.4", Type: "Direct Source", TimeIn: "00:20:19;00", TimeOut: "00:20:27;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.4" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.4", Type: "Direct Source", TimeIn: "00:20:31;12", TimeOut: "00:20:35;17"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.8" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.8", Type: "Direct Source", TimeIn: "00:57:14;02", TimeOut: "00:57:17;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.5", Type: "Direct Source", TimeIn: "00:03:12;28", TimeOut: "00:03:17;13"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.3", Type: "Direct Source", TimeIn: "00:01:20;12", TimeOut: "00:01:26;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.5", Type: "Direct Source", TimeIn: "00:37:30;29", TimeOut: "00:37:43;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.3", Type: "Direct Source", TimeIn: "00:01:42;22", TimeOut: "00:01:45;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.3", Type: "Direct Source", TimeIn: "00:15:13;12", TimeOut: "00:15:19;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.4" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ae2.4", Type: "Direct Source", TimeIn: "00:20:19;00", TimeOut: "00:20:27;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.4" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ae2.4", Type: "Direct Source", TimeIn: "00:20:31;12", TimeOut: "00:20:35;17"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.3" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.8" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ae2.8", Type: "Direct Source", TimeIn: "00:57:14;02", TimeOut: "00:57:17;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.4" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.5", Type: "Direct Source", TimeIn: "00:03:12;28", TimeOut: "00:03:17;13"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.5" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.3" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.3", Type: "Direct Source", TimeIn: "00:01:20;12", TimeOut: "00:01:26;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.6" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ae2.5", Type: "Direct Source", TimeIn: "00:37:30;29", TimeOut: "00:37:43;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.7" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.3" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.3", Type: "Direct Source", TimeIn: "00:01:42;22", TimeOut: "00:01:45;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.8" AND a.UMID="mcDemo_03") AND (b.NID= "Ae2.3" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ae2.3", Type: "Direct Source", TimeIn: "00:15:13;12", TimeOut: "00:15:19;23"}]->b RETURN r
+
+
+``mcDemo_03_01: Access Derivative
+
+CREATE (:Instance {UMID:"mcDemo_03_01", NID: "I-DAc_03", InstanceCreated: "02/02/2014", InstanceStandard: "MPEG-4", InstanceFileSize: "35.5MB", InstanceDimensions: "720x480", InstanceDataRate: "5943kbps", InstanceBitRate: "6200kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Access Copy", InstanceLocation: "NAS", InstanceDuration: "00:00:48;11"})
+CREATE (:Content {UMID:"mcDemo_03_01", NID: "C-DAc_03", ContentTitle: "mcDemo_DAc03", ContentDate: "2003-2004", ContentDescription: "Mixed Clip Edit For metaCirque mcDemo", ContentOwner: "metaCirque"})
+CREATE (:AVContainer {UMID:"mcDemo_03_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:00:48;11"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:00:48;11"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:00:48;11"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.1", ElementTitle: "Signs: Crater & Snakes", TimeDuration: "00:00:08;05"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.2", ElementTitle: "Sign: Rocks", TimeDuration: "00:00:04;05"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.3", ElementTitle: "Rice Eyes", TimeDuration: "00:00:03;13"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.4", ElementTitle: "Fireworks", TimeDuration: "00:00:04;15"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.5", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:05;28"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.6", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:12;23"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.7", ElementTitle: "Hold Greeb", TimeDuration: "00:00:03;01"})
+CREATE (:VideoEssence {UMID:"mcDemo_03_01", NID: "Ve1.8", ElementTitle: "Small Change", TimeDuration: "00:00:06;10"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.1", ElementTitle: "Signs: Crater & Snakes", TimeDuration: "00:00:08;05"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.2", ElementTitle: "Sign: Rocks", TimeDuration: "00:00:04;05"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.3", ElementTitle: "Rice Eyes", TimeDuration: "00:00:03;13"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.4", ElementTitle: "Fireworks", TimeDuration: "00:00:04;15"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.5", ElementTitle: "Rescue Greeb", TimeDuration: "00:00:05;28"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.6", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:12;23"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.7", ElementTitle: "Hold Greeb", TimeDuration: "00:00:03;01"})
+CREATE (:AudioEssence {UMID:"mcDemo_03_01", NID: "Ae2.8", ElementTitle: "Small Change", TimeDuration: "00:00:06;10"})
+CREATE (:TimeCode {UMID:"mcDemo_03_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:00:48;11"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_03_01") AND (b:Content AND b.UMID="mcDemo_03_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_03_01") AND (b:Instance AND b.UMID="mcDemo_03_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_03_01") AND (b:AVContainer AND b.UMID="mcDemo_03_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_03_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_03_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.4" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.6" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.6"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.7" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.7"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.8" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ve1.8"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.2" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.3" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.4" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.4"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.5"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.6" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.6"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.7" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.7"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.8" AND b.UMID="mcDemo_03_01") CREATE a-[r:CONTAINS{NID: "Ae2.8"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.4", TimeIn: "00:00:15;23", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.5", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.6", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.7", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.8", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.3" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.3", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.4" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.4", TimeIn: "00:00:15;23", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.5" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.5", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.6" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.6", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.7" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.7", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.8" AND a.UMID="mcDemo_03_01") AND (b:TimeCode AND b.UMID="mcDemo_03_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.8", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.1", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.2", Type: "Direct Source", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.3", Type: "Direct Source", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.4" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.4", Type: "Direct Source", TimeIn: "00:00:15;23", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.5", Type: "Direct Source", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.6" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.6", Type: "Direct Source", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.7" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.7", Type: "Direct Source", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ve1.8" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ve1.8", Type: "Direct Source", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.1", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.2" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.2", Type: "Direct Source", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.3" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.3" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.3", Type: "Direct Source", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.4" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.4" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.4", Type: "Direct Source", TimeIn: "00:00:15;23", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.5" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.5", Type: "Direct Source", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.6" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.6" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.6", Type: "Direct Source", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.7" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.7" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.7", Type: "Direct Source", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "Ae2.8" AND b.UMID="mcDemo_03") CREATE a-[r:PROVENANCE{UMID: "mcDemo_03", NID: "Ae2.8", Type: "Direct Source", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+
+
+``mcDemo_p/e/c/d : Descriptive Metadata
+
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp0.0", NodeName: "*Location*"})
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp1.0", NodeName: "Roswell"})
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp2.0", NodeName: "Odessa Crater"})
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp3.0", NodeName: "Dripping Springs"})
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp4.0", NodeName: "Night Camp, TX"})
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp5.0", NodeName: "Kelbaker HWY"})
+CREATE (:Description:Place {UMID:"mcDemo_p", NID: "Dp6.0", NodeName: "Desert"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De0.0", NodeName: "*Subject*"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De1.0", NodeName: "Sign"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De1.1", NodeName: "Cross Section of Crater"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De1.2", NodeName: "Watch For Snakes"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De1.3", NodeName: "Removal of Rocks Prohibited"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De3.0", NodeName: "Cross Eyes"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De4.0", NodeName: "Fireworks"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De4.1", NodeName: "Rocket: Launch"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De4.2", NodeName: "Rocket: Blast"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De5.0", NodeName: "Greeb"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De5.1", NodeName: "Greeb: Resue"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De5.2", NodeName: "Greeb: Secure"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De6.0", NodeName: "Mylar Roll"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De6.1", NodeName: "Mylar Roll: Cycle"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De8.0", NodeName: "Penny"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De8.1", NodeName: "Penny: Normal"})
+CREATE (:Description:Subject {UMID:"mcDemo_e", NID: "De8.2", NodeName: "Penny: Flat"})
+CREATE (:Description:Contributor {UMID:"mcDemo_c", NID: "Dc0", NodeName: "*Person*"})
+CREATE (:Description:Contributor {UMID:"mcDemo_c", NID: "Dc1", NodeName: "Rice"})
+CREATE (:Description:Contributor {UMID:"mcDemo_c", NID: "Dc2", NodeName: "Norris"})
+CREATE (:Description:Contributor {UMID:"mcDemo_c", NID: "Dc3", NodeName: "Two Walkers"})
+CREATE (:Description:Contributor {UMID:"mcDemo_c", NID: "Dc4", NodeName: "Mylar Catcher"})
+CREATE (:Description:Contributor {UMID:"mcDemo_c", NID: "Dc5", NodeName: "Greeb Holder"})
+CREATE (:Description:Dialogue {UMID:"mcDemo_d", NID: "Dd0.0", NodeName: "*Dialogue"})
+CREATE (:Description:Dialogue {UMID:"mcDemo_d", NID: "Dd3.0", NodeName: "Extreme Close-up", Dialogue: "Rolling & cross-eyes"})
+CREATE (:Description:Dialogue {UMID:"mcDemo_d", NID: "Dd5.1", NodeName: "Save Greeb", Dialogue: "No, I mean we can save it. It’s dry, but it’s just totally colded out."})
+CREATE (:Description:Dialogue {UMID:"mcDemo_d", NID: "Dd8.0", NodeName: "This to This", Dialogue: "From this to this, for only 50 cents."})
+MATCH a, b WHERE (a.NID= "Dp1.0" AND a.UMID="mcDemo_p") AND (b.NID= "Dp0.0" AND b.UMID="mcDemo_p") CREATE a-[r:EXPRESSES{Type:"GeoSpace"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dp2.0" AND a.UMID="mcDemo_p") AND (b.NID= "Dp0.0" AND b.UMID="mcDemo_p") CREATE a-[r:EXPRESSES{Type:"GeoSpace"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dp3.0" AND a.UMID="mcDemo_p") AND (b.NID= "Dp0.0" AND b.UMID="mcDemo_p") CREATE a-[r:EXPRESSES{Type:"GeoSpace"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dp4.0" AND a.UMID="mcDemo_p") AND (b.NID= "Dp0.0" AND b.UMID="mcDemo_p") CREATE a-[r:EXPRESSES{Type:"GeoSpace"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dp5.0" AND a.UMID="mcDemo_p") AND (b.NID= "Dp0.0" AND b.UMID="mcDemo_p") CREATE a-[r:EXPRESSES{Type:"GeoSpace"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dp6.0" AND a.UMID="mcDemo_p") AND (b.NID= "Dp0.0" AND b.UMID="mcDemo_p") CREATE a-[r:EXPRESSES{Type:"GeoSpace"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03") AND (b.NID= "Dp2.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03") AND (b.NID= "Dp2.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03") AND (b.NID= "Dp4.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03") AND (b.NID= "Dp6.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03") AND (b.NID= "Dp5.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03") AND (b.NID= "Dp3.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03") AND (b.NID= "Dp5.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03") AND (b.NID= "Dp1.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp2.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp2.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp4.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp6.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp5.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp3.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp5.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dp1.0" AND b.UMID="mcDemo_p") CREATE a-[r:WAS_SHOT_AT{Type:"Location"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De1.0" AND a.UMID="mcDemo_e") AND (b.NID= "De0.0" AND b.UMID="mcDemo_e") CREATE a-[r:EXPRESSES{Type:"Concept"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De3.0" AND a.UMID="mcDemo_e") AND (b.NID= "De0.0" AND b.UMID="mcDemo_e") CREATE a-[r:EXPRESSES{Type:"Concept"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De4.0" AND a.UMID="mcDemo_e") AND (b.NID= "De0.0" AND b.UMID="mcDemo_e") CREATE a-[r:EXPRESSES{Type:"Concept"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De5.0" AND a.UMID="mcDemo_e") AND (b.NID= "De0.0" AND b.UMID="mcDemo_e") CREATE a-[r:EXPRESSES{Type:"Concept"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De6.0" AND a.UMID="mcDemo_e") AND (b.NID= "De0.0" AND b.UMID="mcDemo_e") CREATE a-[r:EXPRESSES{Type:"Concept"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De8.0" AND a.UMID="mcDemo_e") AND (b.NID= "De0.0" AND b.UMID="mcDemo_e") CREATE a-[r:EXPRESSES{Type:"Concept"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De1.1" AND a.UMID="mcDemo_e") AND (b.NID= "De1.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De1.2" AND a.UMID="mcDemo_e") AND (b.NID= "De1.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De1.3" AND a.UMID="mcDemo_e") AND (b.NID= "De1.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03") AND (b.NID= "De1.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:00;00", TimeOut: "00:00:01;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03") AND (b.NID= "De1.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:01;16", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03") AND (b.NID= "De1.3" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03") AND (b.NID= "De3.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03_01") AND (b.NID= "De1.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:00;00", TimeOut: "00:00:01;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03_01") AND (b.NID= "De1.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:01;16", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_03_01") AND (b.NID= "De1.3" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:08;05", TimeOut: "00:00:12;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03_01") AND (b.NID= "De3.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De4.1" AND a.UMID="mcDemo_e") AND (b.NID= "De4.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De4.2" AND a.UMID="mcDemo_e") AND (b.NID= "De4.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:15;23", TimeOut: "00:00:17;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:17;15", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:15;23", TimeOut: "00:00:17;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.4" AND a.UMID="mcDemo_03_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:17;15", TimeOut: "00:00:20;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De5.1" AND a.UMID="mcDemo_e") AND (b.NID= "De5.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De5.2" AND a.UMID="mcDemo_e") AND (b.NID= "De5.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De6.1" AND a.UMID="mcDemo_e") AND (b.NID= "De6.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03") AND (b.NID= "De5.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03") AND (b.NID= "De5.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03") AND (b.NID= "De6.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03_01") AND (b.NID= "De5.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03_01") AND (b.NID= "De5.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:39;00", TimeOut: "00:00:42;01"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03_01") AND (b.NID= "De6.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De8.1" AND a.UMID="mcDemo_e") AND (b.NID= "De8.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "De8.2" AND a.UMID="mcDemo_e") AND (b.NID= "De8.0" AND b.UMID="mcDemo_e") CREATE a-[r:IS_PART_OF{Type:"Subject"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03") AND (b.NID= "De8.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:44;00", TimeOut: "00:00:45;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03") AND (b.NID= "De8.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:46;15", TimeOut: "00:00:47;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "De8.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:44;00", TimeOut: "00:00:45;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "De8.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:46;15", TimeOut: "00:00:47;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dc1" AND a.UMID="mcDemo_c") AND (b.NID= "Dc0" AND b.UMID="mcDemo_c") CREATE a-[r:IS_A{Type:"Male"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dc2" AND a.UMID="mcDemo_c") AND (b.NID= "Dc0" AND b.UMID="mcDemo_c") CREATE a-[r:IS_A{Type:"Male"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dc3" AND a.UMID="mcDemo_c") AND (b.NID= "Dc0" AND b.UMID="mcDemo_c") CREATE a-[r:IS_A{Type:"Male"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dc4" AND a.UMID="mcDemo_c") AND (b.NID= "Dc0" AND b.UMID="mcDemo_c") CREATE a-[r:IS_A{Type:"Female"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dc5" AND a.UMID="mcDemo_c") AND (b.NID= "Dc0" AND b.UMID="mcDemo_c") CREATE a-[r:IS_A{Type:"Male"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03") AND (b.NID= "Dc3" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:01;16", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03") AND (b.NID= "Dc1" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03") AND (b.NID= "Dc2" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03") AND (b.NID= "Dc4" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03") AND (b.NID= "Dc5" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03") AND (b.NID= "Dc1" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dc3" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:01;16", TimeOut: "00:00:08;05"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dc1" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.5" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dc2" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.6" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dc4" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.7" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dc5" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:26;07", TimeOut: "00:00:39;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dc1" AND b.UMID="mcDemo_c") CREATE a-[r:HAS_ACTOR{Type:"Human", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dd3.0" AND a.UMID="mcDemo_d") AND (b.NID= "Dd0.0" AND b.UMID="mcDemo_d") CREATE a-[r:EXAMPLE_OF{Language:"Body"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dd5.1" AND a.UMID="mcDemo_d") AND (b.NID= "Dd0.0" AND b.UMID="mcDemo_d") CREATE a-[r:EXAMPLE_OF{Language:"English"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dd8.0" AND a.UMID="mcDemo_d") AND (b.NID= "Dd0.0" AND b.UMID="mcDemo_d") CREATE a-[r:EXAMPLE_OF{Language:"English"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dd3.0" AND a.UMID="mcDemo_d") AND (b.NID= "Dc1" AND b.UMID="mcDemo_c") CREATE a-[r:EXPRESSED_BY{Type:"Presentation"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dd5.1" AND a.UMID="mcDemo_d") AND (b.NID= "Dc2" AND b.UMID="mcDemo_c") CREATE a-[r:EXPRESSED_BY{Type:"Conversation"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Dd8.0" AND a.UMID="mcDemo_d") AND (b.NID= "Dc1" AND b.UMID="mcDemo_c") CREATE a-[r:EXPRESSED_BY{Type:"Presentation"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03") AND (b.NID= "Dd3.0" AND b.UMID="mcDemo_d") CREATE a-[r:HAS_GESTURE{Type:"Presentation", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.5" AND a.UMID="mcDemo_03") AND (b.NID= "Dd5.1" AND b.UMID="mcDemo_d") CREATE a-[r:HAS_STATEMENT{Type:"Conversation", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.8" AND a.UMID="mcDemo_03") AND (b.NID= "Dd8.0" AND b.UMID="mcDemo_d") CREATE a-[r:HAS_STATEMENT{Type:"Presentation", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dd3.0" AND b.UMID="mcDemo_d") CREATE a-[r:HAS_GESTURE{Type:"Presentation", TimeIn: "00:00:12;10", TimeOut: "00:00:15;23"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.5" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dd5.1" AND b.UMID="mcDemo_d") CREATE a-[r:HAS_STATEMENT{Type:"Conversation", TimeIn: "00:00:20;09", TimeOut: "00:00:26;07"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.8" AND a.UMID="mcDemo_03_01") AND (b.NID= "Dd8.0" AND b.UMID="mcDemo_d") CREATE a-[r:HAS_STATEMENT{Type:"Presentation", TimeIn: "00:00:42;01", TimeOut: "00:00:48;11"}]->b RETURN r
+
+
+``mcDemo_04: Edited Master
+
+CREATE (:Instance {UMID:"mcDemo_04", NID: "I-DMe_04", InstanceCreated: "01/30/2014", InstanceStandard: "AVI", InstanceFileSize: "217MB", InstanceDimensions: "720x480", InstanceDataRate: "28771kbps", InstanceBitRate: "30307kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Master, Edit", InstanceLocation: "NAS", InstanceDuration: "00:01:00;00"})
+CREATE (:Content {UMID:"mcDemo_04", NID: "C-DMe_04", ContentTitle: "mcDemo_DM4edit", ContentDate: "2003-2004", ContentDescription: "Mixed Clip Short Edit For mcDemo", ContentOwner: "metaCirque"})
+CREATE (:AVContainer {UMID:"mcDemo_04", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:01:00;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_04", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:01:00;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_04", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:01:00;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_04", NID: "Ve1.1", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:09;03"})
+CREATE (:VideoEssence {UMID:"mcDemo_04", NID: "Ve1.2", ElementTitle: "Fireworks", TimeDuration: "00:00:51;27"})
+CREATE (:AudioEssence {UMID:"mcDemo_04", NID: "Ae2.1", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:09;03"})
+CREATE (:AudioEssence {UMID:"mcDemo_04", NID: "Ae2.2", ElementTitle: "Fireworks", TimeDuration: "00:00:51;27"})
+CREATE (:TimeCode {UMID:"mcDemo_04", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:01:00;00"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_04") AND (b:Content AND b.UMID="mcDemo_04") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_04") AND (b:Instance AND b.UMID="mcDemo_04") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_04") AND (b:AVContainer AND b.UMID="mcDemo_04") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_04") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_04") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_04") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_04") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_04") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_04") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_04") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_04") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_04") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_04") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_04") AND (b.NID= "Ae2.2" AND b.UMID="mcDemo_04") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b:TimeCode AND b.UMID="mcDemo_04") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:00:09;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b:TimeCode AND b.UMID="mcDemo_04") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_04") AND (b:TimeCode AND b.UMID="mcDemo_04") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:00:09;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_04") AND (b:TimeCode AND b.UMID="mcDemo_04") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.5", Type: "Direct Source", TimeIn: "00:37:30;29", TimeOut: "00:37:40;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "Ve1.5" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ve1.5", Type: "Direct Source", TimeIn: "00:02:28;24", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_04") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ae2.5", Type: "Direct Source", TimeIn: "00:37:30;29", TimeOut: "00:37:40;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_04") AND (b.NID= "Ae2.5" AND b.UMID="mcDemo_02_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_02_01", NID: "Ae2.5", Type: "Direct Source", TimeIn: "00:02:28;24", TimeOut: "00:03:19;21"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b.NID= "De6.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:00;00", TimeOut: "00:00:10;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:00;00", TimeOut: "00:00:01;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:01;20", TimeOut: "00:00:04;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:04;11", TimeOut: "00:00:06;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:06;20", TimeOut: "00:00:10;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:09;19", TimeOut: "00:00:10;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:10;16", TimeOut: "00:00:12;02"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:12;02", TimeOut: "00:00:13;22"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:13;22", TimeOut: "00:00:18;28"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:18;28", TimeOut: "00:00:20;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:20;15", TimeOut: "00:00:23;22"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:23;22", TimeOut: "00:00:25;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:25;10", TimeOut: "00:00:30;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:30;12", TimeOut: "00:00:31;28"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:31;28", TimeOut: "00:00:38;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:38;09", TimeOut: "00:00:39;26"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:39;26", TimeOut: "00:00:46;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:46;12", TimeOut: "00:00:47;25"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:47;25", TimeOut: "00:00:53;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:53;11", TimeOut: "00:00:54;27"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:54;27", TimeOut: "00:01:00;00"}]->b RETURN r
+
+
+``mcDemo_04_01: Access Derivative
+
+CREATE (:Instance {UMID:"mcDemo_04_01", NID: "I-DAc_04", InstanceCreated: "01/31/2014", InstanceStandard: "MPEG-4", InstanceFileSize: "33.6MB", InstanceDimensions: "720x480", InstanceDataRate: "4441kbps", InstanceBitRate: "4697kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Access Copy", InstanceLocation: "NAS", InstanceDuration: "00:01:00;00"})
+CREATE (:Content {UMID:"mcDemo_04_01", NID: "C-DAc_04", ContentTitle: "mcDemo_DAc04", ContentDate: "2003-2004", ContentDescription: "Access Copy of Short Edit For mcDemo", ContentOwner: "metaCirque"})
+CREATE (:AVContainer {UMID:"mcDemo_04_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:01:00;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_04_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:01:00;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_04_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:01:00;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_04_01", NID: "Ve1.1", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:09;03"})
+CREATE (:VideoEssence {UMID:"mcDemo_04_01", NID: "Ve1.2", ElementTitle: "Fireworks", TimeDuration: "00:00:51;27"})
+CREATE (:AudioEssence {UMID:"mcDemo_04_01", NID: "Ae2.1", ElementTitle: "Mylar Rolls", TimeDuration: "00:00:09;03"})
+CREATE (:AudioEssence {UMID:"mcDemo_04_01", NID: "Ae2.2", ElementTitle: "Fireworks", TimeDuration: "00:00:51;27"})
+CREATE (:TimeCode {UMID:"mcDemo_04_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:01:00;00"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_04_01") AND (b:Content AND b.UMID="mcDemo_04_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_04_01") AND (b:Instance AND b.UMID="mcDemo_04_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_04_01") AND (b:AVContainer AND b.UMID="mcDemo_04_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_04_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_04_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_04_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_04_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_04_01") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_04_01") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_04_01") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ae2.2" AND b.UMID="mcDemo_04_01") CREATE a-[r:CONTAINS{NID: "Ae2.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b:TimeCode AND b.UMID="mcDemo_04_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:00:09;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b:TimeCode AND b.UMID="mcDemo_04_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_04_01") AND (b:TimeCode AND b.UMID="mcDemo_04_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:00;00", TimeOut: "00:00:09;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_04_01") AND (b:TimeCode AND b.UMID="mcDemo_04_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.2", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_04") CREATE a-[r:PROVENANCE{UMID: "mcDemo_04", NID: "Ve1.1", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:00:09;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_04") CREATE a-[r:PROVENANCE{UMID: "mcDemo_04", NID: "Ve1.2", Type: "Direct Source", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_04") CREATE a-[r:PROVENANCE{UMID: "mcDemo_04", NID: "Ae2.1", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:00:09;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "Ae2.2" AND b.UMID="mcDemo_04") CREATE a-[r:PROVENANCE{UMID: "mcDemo_04", NID: "Ae2.2", Type: "Direct Source", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "De6.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:00;00", TimeOut: "00:00:10;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:00;00", TimeOut: "00:00:01;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:01;20", TimeOut: "00:00:04;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:04;11", TimeOut: "00:00:06;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_04_01") AND (b.NID= "De6.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:06;20", TimeOut: "00:00:10;03"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.0" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:09;03", TimeOut: "00:01:00;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:09;19", TimeOut: "00:00:10;16"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:10;16", TimeOut: "00:00:12;02"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:12;02", TimeOut: "00:00:13;22"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:13;22", TimeOut: "00:00:18;28"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:18;28", TimeOut: "00:00:20;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:20;15", TimeOut: "00:00:23;22"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:23;22", TimeOut: "00:00:25;10"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:25;10", TimeOut: "00:00:30;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:30;12", TimeOut: "00:00:31;28"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:31;28", TimeOut: "00:00:38;09"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:38;09", TimeOut: "00:00:39;26"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:39;26", TimeOut: "00:00:46;12"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:46;12", TimeOut: "00:00:47;25"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:47;25", TimeOut: "00:00:53;11"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.1" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:53;11", TimeOut: "00:00:54;27"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_04_01") AND (b.NID= "De4.2" AND b.UMID="mcDemo_e") CREATE a-[r:HAS_SUBJECT{Type:"Object", TimeIn: "00:00:54;27", TimeOut: "00:01:00;00"}]->b RETURN r
+
+
+``mcDemo_05: Music CD (Physical)
+
+CREATE (:Instance {UMID:"mcDemo_05", NID: "I-CD_01", InstanceCreated: "1999", InstanceStandard: "WAV", InstanceGeneration: "Primary Source (CD)", InstanceLocation: "Physical Archive", InstanceDuration: "00:45:22"})
+CREATE (:Content {UMID:"mcDemo_05", NID: "C-CD_01", ContentTitle: "Do Not Enter", ContentDate: "1997", ContentDescription: "Music, Vocals, Ambient", ContentContributor: "Pine Street Poets", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_05", NID: "AVc0.0", ElementTitle: "Essence Container", TimeIn: "00:00:00", TimeDuration: "00:45:22"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae1.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 1", TimeDuration: "00:03:40"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae2.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 2", TimeDuration: "00:05:18"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae3.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 3", TimeDuration: "00:04:22"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae4.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 4", TimeDuration: "00:06:56"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae5.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 5", TimeDuration: "00:02:34"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae6.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 6", TimeDuration: "00:03:11"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae7.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 7", TimeDuration: "00:05:52"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae8.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 8", TimeDuration: "00:03:27"})
+CREATE (:AudioEssence {UMID:"mcDemo_05", NID: "Ae9.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 9", TimeDuration: "00:10:02"})
+CREATE (:TimeCode {UMID:"mcDemo_05", NID: "Tc0.0", TimeStart: "00:00:00", TimeDuration: "00:45:22"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_05") AND (b:Content AND b.UMID="mcDemo_05") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_05") AND (b:Instance AND b.UMID="mcDemo_05") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_05") AND (b:AVContainer AND b.UMID="mcDemo_05") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae1.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae3.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae3.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae4.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae4.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae5.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae5.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae6.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae6.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae7.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae7.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae8.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae8.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05") AND (b.NID="Ae9.0" AND b.UMID="mcDemo_05") CREATE a-[r:CONTAINS{NID: "Ae9.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae1.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae1.0", TimeIn: "00:00:00", TimeOut: "00:03:40"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae2.0", TimeIn: "00:03:40", TimeOut: "00:08:58"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae3.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae3.0", TimeIn: "00:08:58", TimeOut: "00:13:20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae4.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae4.0", TimeIn: "00:13:20", TimeOut: "00:20:16"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae5.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae5.0", TimeIn: "00:20:16", TimeOut: "00:22:50"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae6.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae6.0", TimeIn: "00:22:50", TimeOut: "00:26:01"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae7.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae7.0", TimeIn: "00:26:01", TimeOut: "00:31:53"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae8.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae8.0", TimeIn: "00:31:53", TimeOut: "00:35:20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae9.0" AND a.UMID="mcDemo_05") AND (b:TimeCode AND b.UMID="mcDemo_05") CREATE a-[r:TIME_SYNC{NID: "Ae9.0", TimeIn: "00:35:20", TimeOut: "00:45:22"}]->b RETURN r
+
+
+``mcDemo_05_01: Music CD (Ingest Master)
+
+CREATE (:Instance {UMID:"mcDemo_05_01", NID: "I-Aei_01", InstanceCreated: "02/10/2014", InstanceStandard: "WAV", InstanceGeneration: "Ingested Digital", Bitrate: "1141kbps", InstanceLocation: "NAS", InstanceDuration: "00:45:22"})
+CREATE (:Content {UMID:"mcDemo_05_01", NID: "C-Aei_01", ContentTitle: "Do Not Enter", ContentDate: "1997", ContentDescription: "Music, Vocals, Ambient", ContentContributor: "Pine Street Poets", ContentOwner: "Studio LarZ"})
+CREATE (:AVContainer {UMID:"mcDemo_05_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeIn: "00:00:00", TimeDuration: "00:45:22"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae1.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 1", TimeDuration: "00:03:40"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 2", TimeDuration: "00:05:18"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae3.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 3", TimeDuration: "00:04:22"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae4.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 4", TimeDuration: "00:06:56"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae5.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 5", TimeDuration: "00:02:34"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae6.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 6", TimeDuration: "00:03:11"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae7.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 7", TimeDuration: "00:05:52"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae8.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 8", TimeDuration: "00:03:27"})
+CREATE (:AudioEssence {UMID:"mcDemo_05_01", NID: "Ae9.0", ElementTitle: "Audio Essence", TrackTitle: "Opus 9", TimeDuration: "00:10:02"})
+CREATE (:TimeCode {UMID:"mcDemo_05_01", NID: "Tc0.0", TimeStart: "00:00:00", TimeDuration: "00:45:22"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_05_01") AND (b:Content AND b.UMID="mcDemo_05_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_05_01") AND (b:Instance AND b.UMID="mcDemo_05_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_05_01") AND (b:AVContainer AND b.UMID="mcDemo_05_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae1.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae3.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae3.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae4.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae4.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae5.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae5.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae6.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae6.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae7.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae7.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae8.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae8.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_05_01") AND (b.NID="Ae9.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:CONTAINS{NID: "Ae9.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae1.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae1.0", TimeIn: "00:00:00", TimeOut: "00:03:40"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.0", TimeIn: "00:03:40", TimeOut: "00:08:58"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae3.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae3.0", TimeIn: "00:08:58", TimeOut: "00:13:20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae4.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae4.0", TimeIn: "00:13:20", TimeOut: "00:20:16"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae5.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae5.0", TimeIn: "00:20:16", TimeOut: "00:26:01"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae6.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae6.0", TimeIn: "00:26:01", TimeOut: "00:31:53"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae7.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae7.0", TimeIn: "00:31:53", TimeOut: "00:35:20"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae8.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae8.0", TimeIn: "00:35:20", TimeOut: "00:45:22"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae9.0" AND a.UMID="mcDemo_05_01") AND (b:TimeCode AND b.UMID="mcDemo_05_01") CREATE a-[r:TIME_SYNC{NID: "Ae9.0", TimeIn: "00:00:00", TimeOut: "00:10:02"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae1.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae1.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae1.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:03:40"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae2.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:05:18"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae3.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae3.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae3.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:04:22"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae4.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae4.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae4.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:06:56"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae5.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae5.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae5.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:02:34"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae6.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae6.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae6.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:03:11"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae7.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae7.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae7.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:05:52"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae8.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae8.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae8.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:03:27"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae9.0" AND a.UMID="mcDemo_05_01") AND (b.NID="Ae9.0" AND b.UMID="mcDemo_05") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05", NID: "Ae9.0", Type:"Primary Source", TimeIn: "00:00:00", TimeOut: "00:10:02"}]->b RETURN r
+
+
+``mcDemo_06: Asymmetrical Edit Master
+
+CREATE (:Instance {UMID:"mcDemo_06", NID: "I-DMe_06", InstanceCreated: "02/13/2014", InstanceStandard: "AVI", InstanceFileSize: "1.8GB", InstanceDimensions: "720x480", InstanceDataRate: "28771kbps", InstanceBitRate: "30307kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "1536kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Master, Edit", InstanceLocation: "NAS", InstanceDuration: "00:10:05;00"})
+CREATE (:Content {UMID:"mcDemo_06", NID: "C-DMe_06", ContentTitle: "mcDemo_DMe06", ContentDate: "2003-2004", ContentDescription: "Mixed Clip Short Edit For mcDemo", ContentOwner: "metaCirque"})
+CREATE (:AVContainer {UMID:"mcDemo_06", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:10:05;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_06", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:10:05;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_06", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:10:05;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_06", NID: "Ve1.1", ElementTitle: "VLA Timelapse", TimeDuration: "00:04:35;15"})
+CREATE (:VideoEssence {UMID:"mcDemo_06", NID: "Ve1.2", ElementTitle: "Road Home", TimeDuration: "00:03:20;15"})
+CREATE (:VideoEssence {UMID:"mcDemo_06", NID: "Ve1.3", ElementTitle: "Elgin, TX", TimeDuration: "00:02:35;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_06", NID: "Ae2.1", ElementTitle: "Opus 9.0", TimeDuration: "00:00:10;02"})
+CREATE (:TimeCode {UMID:"mcDemo_06", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:10:05;00"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_06") AND (b:Content AND b.UMID="mcDemo_06") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_06") AND (b:Instance AND b.UMID="mcDemo_06") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_06") AND (b:AVContainer AND b.UMID="mcDemo_06") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_06") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_06") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_06") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_06") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_06") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_06") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_06") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_06") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_06") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_06") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_06") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_06") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_06") AND (b:TimeCode AND b.UMID="mcDemo_06") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:04:35;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_06") AND (b:TimeCode AND b.UMID="mcDemo_06") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:04:35;00", TimeOut: "00:07:20;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_06") AND (b:TimeCode AND b.UMID="mcDemo_06") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:07:20;00", TimeOut: "00:10:05;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_06") AND (b:TimeCode AND b.UMID="mcDemo_06") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:02;00", TimeOut: "00:10:04;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_06") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.2", Type: "Direct Source", TimeIn: "00:05:20;15", TimeOut: "00:09:56;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_06") AND (b.NID= "Ve1.7" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.7", Type: "Direct Source", TimeIn: "00:52:36;00", TimeOut: "00:55:56;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_06") AND (b.NID= "Ve1.6" AND b.UMID="mcDemo_01_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_01_01", NID: "Ve1.6", Type: "Direct Source", TimeIn: "00:43:05;20", TimeOut: "00:45:40;20"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_06") AND (b.NID= "Ae9.0" AND b.UMID="mcDemo_05_01") CREATE a-[r:PROVENANCE{UMID: "mcDemo_05_01", NID: "Ae9.0", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:10:02;00"}]->b RETURN r
+
+
+``mcDemo_06_01: Asymmetrical Access Copy
+
+CREATE (:Instance {UMID:"mcDemo_06_01", NID: "I-DAc_06", InstanceCreated: "02/13/2014", InstanceStandard: "MP4", InstanceFileSize: "365MB", InstanceDimensions: "720x480", InstanceDataRate: "5856kbps", InstanceBitRate: "6112kbps", InstanceFrameRate: "29.97", InstanceAudioBitRate: "256kbps", InstanceAudioSampleRate: "48kHz", InstanceAudioChannels: "Stereo-2", InstanceGeneration: "Digital Access Copy", InstanceLocation: "NAS", InstanceDuration: "00:10:05;00"})
+CREATE (:Content {UMID:"mcDemo_06_01", NID: "C-DAc_06", ContentTitle: "mcDemo_DAc06", ContentDate: "2003-2004", ContentDescription: "Mixed Clip Short Edit For mcDemo", ContentOwner: "metaCirque"})
+CREATE (:AVContainer {UMID:"mcDemo_06_01", NID: "AVc0.0", ElementTitle: "Essence Container", TimeDuration: "00:10:05;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_06_01", NID: "Ve1.0", ElementTitle: "Video Essence", TimeDuration: "00:10:05;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_06_01", NID: "Ae2.0", ElementTitle: "Audio Essence", TimeDuration: "00:10:05;00"})
+CREATE (:VideoEssence {UMID:"mcDemo_06_01", NID: "Ve1.1", ElementTitle: "VLA Timelapse", TimeDuration: "00:04:35;15"})
+CREATE (:VideoEssence {UMID:"mcDemo_06_01", NID: "Ve1.2", ElementTitle: "Road Home", TimeDuration: "00:03:20;15"})
+CREATE (:VideoEssence {UMID:"mcDemo_06_01", NID: "Ve1.3", ElementTitle: "Elgin, TX", TimeDuration: "00:02:35;00"})
+CREATE (:AudioEssence {UMID:"mcDemo_06_01", NID: "Ae2.1", ElementTitle: "Opus 9.0", TimeDuration: "00:00:10;02"})
+CREATE (:TimeCode {UMID:"mcDemo_06_01", NID: "Tc0.0", TimeCodeTitle: "Time", TimeStart: "00:00:00;00", TimeDuration: "00:10:05;00"})
+MATCH a, b WHERE (a:Instance AND a.UMID="mcDemo_06_01") AND (b:Content AND b.UMID="mcDemo_06_01") CREATE a-[r:CARRIES]->b RETURN r
+MATCH a, b WHERE (a:TimeCode AND a.UMID="mcDemo_06_01") AND (b:Instance AND b.UMID="mcDemo_06_01") CREATE a-[r:SPECIFIED_BY]->b RETURN r
+MATCH a, b WHERE (a:Content AND a.UMID="mcDemo_06_01") AND (b:AVContainer AND b.UMID="mcDemo_06_01") CREATE a-[r:REPRESENTED_BY]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_06_01") AND (b.NID="Ve1.0" AND b.UMID="mcDemo_06_01") CREATE a-[r:CONTAINS{NID: "Ve1.0"}]->b RETURN r
+MATCH a, b WHERE (a:AVContainer AND a.UMID="mcDemo_06_01") AND (b.NID="Ae2.0" AND b.UMID="mcDemo_06_01") CREATE a-[r:CONTAINS{NID: "Ae2.0"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_06_01") CREATE a-[r:CONTAINS{NID: "Ve1.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_06_01") CREATE a-[r:CONTAINS{NID: "Ve1.2"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ve1.0" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_06_01") CREATE a-[r:CONTAINS{NID: "Ve1.3"}]->b RETURN r
+MATCH a, b WHERE (a.NID="Ae2.0" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_06_01") CREATE a-[r:CONTAINS{NID: "Ae2.1"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_06_01") AND (b:TimeCode AND b.UMID="mcDemo_06_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.1", TimeIn: "00:00:00;00", TimeOut: "00:04:35;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_06_01") AND (b:TimeCode AND b.UMID="mcDemo_06_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.2", TimeIn: "00:04:35;00", TimeOut: "00:07:20;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_06_01") AND (b:TimeCode AND b.UMID="mcDemo_06_01") CREATE a-[r:TIME_SYNC{NID: "Ve1.3", TimeIn: "00:07:20;00", TimeOut: "00:10:05;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_06_01") AND (b:TimeCode AND b.UMID="mcDemo_06_01") CREATE a-[r:TIME_SYNC{NID: "Ae2.1", TimeIn: "00:00:02;00", TimeOut: "00:10:04;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.1" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ve1.1" AND b.UMID="mcDemo_06") CREATE a-[r:PROVENANCE{UMID: "mcDemo_06", NID: "Ve1.1", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:04:35;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.2" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ve1.2" AND b.UMID="mcDemo_06") CREATE a-[r:PROVENANCE{UMID: "mcDemo_06", NID: "Ve1.2", Type: "Direct Source", TimeIn: "00:04:35;00", TimeOut: "00:07:20;15"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ve1.3" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ve1.3" AND b.UMID="mcDemo_06") CREATE a-[r:PROVENANCE{UMID: "mcDemo_06", NID: "Ve1.3", Type: "Direct Source", TimeIn: "00:07:20;00", TimeOut: "00:10:05;00"}]->b RETURN r
+MATCH a, b WHERE (a.NID= "Ae2.1" AND a.UMID="mcDemo_06_01") AND (b.NID= "Ae2.1" AND b.UMID="mcDemo_06") CREATE a-[r:PROVENANCE{UMID: "mcDemo_06", NID: "Ae2.1", Type: "Direct Source", TimeIn: "00:00:00;00", TimeOut: "00:10:02;00"}]->b RETURN r
